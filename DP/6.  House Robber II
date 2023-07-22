@@ -1,0 +1,47 @@
+//House Robber II ...........(Conding Ninjas).............
+
+
+// TC ->O(N)
+// SC ->O(N)
+
+
+#include <bits/stdc++.h> 
+
+
+long long int solve(vector<int>& nums)
+{
+    long long int n = nums.size();
+   
+    long long int prev2 =0;
+    long long int prev1= nums[0];
+    
+    for(int i = 1; i< n ; i++)
+    {
+        long long int include = prev2 + nums[i];  // include the element..
+        long long int exclude = prev1 + 0;         // exclude the element..
+        prev2 = prev1;
+        prev1 = max(include, exclude);
+
+    }
+    
+    
+    return prev1;
+
+}
+long long int houseRobber(vector<int>& valueInHouse)
+{
+    long long int n = valueInHouse.size();
+    vector<int>first , second;
+    if(n==1)
+        return valueInHouse[0];
+    
+    for(int i = 0 ;i< n ;i++)
+    {
+        if(i!= n-1)
+            first.push_back(valueInHouse[i]);   // skip last house and take first house
+        if(i!= 0)
+            second.push_back(valueInHouse[i]);   // skip firt house and take last house
+    }
+
+    return max(solve(first), solve(second));
+}
