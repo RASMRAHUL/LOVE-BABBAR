@@ -1,0 +1,63 @@
+Maximum sum of non-adjacent elements...........(Conding Ninjas)...........
+
+
+#include <bits/stdc++.h> 
+
+//**************************************************************************************
+
+// Recursion + memoization
+// TC -> O(N)
+// SC -> O(N)
+int solve(vector<int>& nums, int n, vector<int>&dp)
+{
+    if(n < 0)
+        return 0;
+        
+    if(n == 0)
+        return nums[0];
+    
+    if(dp[n] != -1)
+        return dp[n];
+    
+    int include = solve(nums, n-2, dp) + nums[n];  // include the element..
+    int exclude = solve(nums, n-1, dp) + 0;         // exclude the element..
+    dp[n] = max(include, exclude);
+    return dp[n];
+
+}
+
+//***************************************************************************************
+
+// OPTIMAL APPROACH
+// TC -> O(N)
+// SC -> O(1)
+int solve1(vector<int>& nums)
+{
+    int n = nums.size();
+   
+    int prev2 =0;
+    int prev1= nums[0];
+    
+    for(int i = 1; i< n ; i++)
+    {
+        int include = prev2 + nums[i];  // include the element..
+        int exclude = prev1 + 0;         // exclude the element..
+        prev2 = prev1;
+        prev1 = max(include, exclude);
+
+    }
+    
+    
+    return prev1;
+
+}
+
+
+int maximumNonAdjacentSum(vector<int> &nums){
+    // int n= nums.size();
+    // vector<int> dp(n+1, -1);
+    // return solve(nums, n-1, dp); // sending n -> index from the last...
+
+
+    return solve1(nums);
+}
